@@ -15,12 +15,16 @@ const manufacturerController = {
   },
   create(req, res) {
     const requestBody = req.body;
+
     const newManufacturer = new Manufacturer(requestBody);
 
     newManufacturer.save((err, saved) => {
       Manufacturer
         .findOne({ _id: newManufacturer._id })
-        .exec((err, manfacturer) => res.json(manfacturer))
+        .exec((err, manfacturer) => { 
+          if(err) return res.json(err); 
+          else return res.json(manfacturer)
+        })
     })
   },
   update(req, res) {
